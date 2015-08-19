@@ -1,0 +1,33 @@
+***Do File
+
+clear
+
+cd "/Users/francescocorea/Documents/PhD/Jumps/Data" 
+
+
+use "/Users/francescocorea/Documents/PhD/Jumps/Data/FTSE.dta"
+
+tsset Date
+
+eststo: quietly reg Jumps L.Jumps L.Volume
+
+eststo: quietly reg  Magnitude L.Magnitude L.Volume, nocons
+
+use "/Users/francescocorea/Documents/PhD/Jumps/Data/Nasdaq.dta"
+
+tsset Date
+
+eststo: quietly reg Jumps L.Jumps L.Volume
+
+eststo: quietly reg  Magnitude L.Magnitude L.Volume, nocons
+
+use "/Users/francescocorea/Documents/PhD/Jumps/Data/S&P500.dta"
+
+tsset Date
+
+eststo: quietly reg Jumps L.Jumps L.Volume
+
+eststo: quietly reg  Magnitude L.Magnitude L.Volume, nocons
+
+esttab using result.rtf, replace mgroups("FTSE" "Nasdaq" "S&P500", pattern(1 0 1 0 1 0)) noobs coef(L.Jumps "Jumps (t-1)" L.Volume "Volume (t-1)" L.Magnitude "Magnitude (t-1)" _cons "Constant")
+
